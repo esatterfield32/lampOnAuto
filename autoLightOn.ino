@@ -1,4 +1,5 @@
 #include <Servo.h>
+
 int servoPin = 9;
 Servo spool;
 int buttonPin = 8;
@@ -8,6 +9,8 @@ int servoDelay = 10;
 bool buttonState = false;
 bool newButtonState;
 
+int incomingByte = 0;
+
 void setup() {
 pos_servo = 0;
 Serial.begin(9600);
@@ -16,12 +19,22 @@ pinMode(buttonPin, INPUT_PULLUP);
 }
 
 void loop() {
- Serial.println(digitalRead(buttonPin));
- if (digitalRead(buttonPin) == 0){
-  Serial.println("got here");
-  Serial.println(digitalRead(buttonPin));
-  pullChain();
+  
+  if (Serial.available()>0){
+   incomingByte = Serial.read();
+   Serial.println("recieved command" + (char)incomingByte);
+   if (incomingByte == 'o'){
+    pullChain();
+   }
+   /*Serial.println(digitalRead(buttonPin));
+   if (digitalRead(buttonPin) == 0){
+    Serial.println("got here");
+    Serial.println(digitalRead(buttonPin));
+    pullChain();
+    }
+    */
   }
+
 
 }
 
