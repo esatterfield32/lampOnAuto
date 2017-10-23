@@ -6,8 +6,7 @@ int buttonPin = 8;
 int pos_servo = 180;
 int i=0;
 int servoDelay = 10;
-bool buttonState = false;
-bool newButtonState;
+int relayPin = 4;
 
 int incomingByte = 0;
 
@@ -15,7 +14,8 @@ void setup() {
 pos_servo = 0;
 Serial.begin(9600);
 pinMode(buttonPin, INPUT_PULLUP);
-
+pinMode(relayPin, OUTPUT);
+digitalWrite(relayPin, HIGH);
 }
 
 void loop() {
@@ -24,7 +24,12 @@ void loop() {
    incomingByte = Serial.read();
    Serial.println("recieved command" + (char)incomingByte);
    if (incomingByte == 'o'){
-    pullChain();
+    //pullChain();
+    activateRelay();
+    Serial.println("I'm pulling the chain");
+   }
+   else{
+    Serial.println("invalid command!");
    }
    /*Serial.println(digitalRead(buttonPin));
    if (digitalRead(buttonPin) == 0){
@@ -54,4 +59,13 @@ void pullChain(){
     }
   spool.detach();
 }//end pullChain
+
+void activateRelay(){
+  if(digitalRead(relayPin) == 1){
+    digitalWrite(relayPin, LOW);
+  }
+  else{
+    digitalWrite(relayPin, HIGH);
+  }
+}
 
