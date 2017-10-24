@@ -19,7 +19,7 @@ digitalWrite(relayPin, HIGH);
 }
 
 void loop() {
-  
+//  Serial.println("AT+BIND?");
   if (Serial.available()>0){
    incomingByte = Serial.read();
    Serial.println("recieved command" + (char)incomingByte);
@@ -31,14 +31,16 @@ void loop() {
    else{
     Serial.println("invalid command!");
    }
-   /*Serial.println(digitalRead(buttonPin));
+   Serial.println(digitalRead(buttonPin));
+   }
    if (digitalRead(buttonPin) == 0){
     Serial.println("got here");
     Serial.println(digitalRead(buttonPin));
-    pullChain();
+    activateRelay();
+   // pullChain();
     }
-    */
-  }
+    
+  
 
 
 }
@@ -63,6 +65,7 @@ void pullChain(){
 void activateRelay(){
   if(digitalRead(relayPin) == 1){
     digitalWrite(relayPin, LOW);
+    Serial.println("realy");
   }
   else{
     digitalWrite(relayPin, HIGH);
